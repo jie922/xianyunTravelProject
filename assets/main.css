@@ -13,3 +13,10 @@
     background:#409eff;
     height: 1px;
 }
+a{
+    text-decoration: none
+}
+* {
+    margin: 0;
+    padding: 0;
+  }
