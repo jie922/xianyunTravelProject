@@ -24,7 +24,11 @@
 </template>
 
 <script>
-export default {};
+export default {
+  mounted(){
+    console.log(this.$store)
+  }
+};
 </script>
 
 <style lang="less" scoped>

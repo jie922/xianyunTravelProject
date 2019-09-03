@@ -11,6 +11,7 @@
         <!-- 登录功能组件 -->
         <loginForm v-if='tabIndex===0'/>
         <!-- 注册功能组件 -->
+        <enrollForm v-if='tabIndex===1'/>
 
       </div>
     </el-row>
@@ -20,6 +21,7 @@
 <script>
 // 引入功能组件
 import loginForm from '@/components/user/loginForm.vue'
+import enrollForm from '@/components/user/enrollForm'
 export default {
   data(){
     return {
@@ -29,7 +31,8 @@ export default {
   },
   // 注册组件
   components:{
-    loginForm
+    loginForm,
+    enrollForm
   },
   methods: {
     loginTabs(index){
