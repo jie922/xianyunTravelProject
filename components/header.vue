@@ -15,9 +15,9 @@
         <nuxt-link to="/air/air_index">国内机票</nuxt-link>
       </el-row>
       <!-- 用户登录注册 -->
-      <el-row type="flex">
+      <el-row type="flex" class="register">
         <nuxt-link to="/">消息</nuxt-link>
-        <nuxt-link to="/">登录/注册</nuxt-link>
+        <nuxt-link to="/user/login">登录/注册</nuxt-link>
       </el-row>
     </el-row>
   </header>
@@ -57,6 +57,16 @@ export default {};
       color:#fff;
       background-color:#1423f7;
       
+    }
+  }
+  .register{
+    a {
+      color: #000;
+      margin: 0 5px; 
+      &:hover{
+        color:#03d5fa;
+        border-bottom: 5px #03d5fa solid;
+      }
     }
   }
 }
