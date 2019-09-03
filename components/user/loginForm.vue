@@ -2,12 +2,12 @@
   <el-form :model="form" class="form" :rules="rules" ref="form">
     <!-- 用户名输入框 -->
     <el-form-item class="form-item" prop="username">
-      <el-input placeholder="用户名/手机"></el-input>
+      <el-input placeholder="用户名/手机" v-model='form.username'></el-input>
     </el-form-item>
 
     <!-- 密码输入框 -->
     <el-form-item class="form-item" prop="password">
-      <el-input placeholder="密码"></el-input>
+      <el-input placeholder="密码" v-model='form.password'></el-input>
     </el-form-item>
 
     <P class="form-text">
@@ -39,9 +39,23 @@ export default {
 
     };
   },
+  
   methods:{
+    // 点击登录时触发
     handleLogin(){
-      console.log(this.form)
+      // 验证表单
+      this.$refs['form'].validate((valid)=>{
+        // valid为true时验证通过
+        if(valid){
+          this.$axios({
+            url:"/accounts/login",
+            method:'POST',
+            data:this.form
+          }).then(res=>{
+            console.log(res)
+          })
+        }
+      })
     }
   }
 };
