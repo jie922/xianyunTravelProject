@@ -40,7 +40,7 @@
             </span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item>个人中心</el-dropdown-item>
-              <el-dropdown-item>退出</el-dropdown-item>
+              <el-dropdown-item @click.native="Exit">退出</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </div>
@@ -51,8 +51,20 @@
 
 <script>
 export default {
-  mounted() {
-    console.log(this.$store);
+  // mounted() {
+  //   console.log(this.$store);
+  // }
+  
+  methods:{
+    // 退出
+    Exit(){
+      this.$store.commit('user/deleteUserInfo');
+      this.$message({
+        type:'success',
+        message:'退出成功'
+      })
+    }
+    
   }
 };
 </script>
