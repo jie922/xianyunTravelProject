@@ -53,7 +53,11 @@ export default {
             data:this.form
           }).then(res=>{
             console.log(res)
+            // 使用commit调用mutations的方法:两个参数方法名setUserInfo和数据
+            this.$store.commit('user/setUserInfo',res.data)
           })
+        }else{
+          console.log('验证失败')
         }
       })
     }

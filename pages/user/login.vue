@@ -25,7 +25,7 @@ import enrollForm from '@/components/user/enrollForm'
 export default {
   data(){
     return {
-      tabIndex:0
+      tabIndex:1
 
     }
   },
@@ -37,6 +37,11 @@ export default {
   methods: {
     loginTabs(index){
       this.tabIndex=index
+      // if(index===0){
+      //   this.tabIndex=0
+      // }else if(index===1){
+      //   this.tabIndex=1
+      // }
     }
   },
 };
