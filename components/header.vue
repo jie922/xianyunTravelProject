@@ -63,6 +63,8 @@ export default {
         type:'success',
         message:'退出成功'
       })
+      // 退出跳转到登录页面
+      this.$router.replace('/user/login')
     }
     
   }

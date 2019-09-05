@@ -93,8 +93,9 @@ export default {
             method:'POST',
             data: rest
           }).then(res=>{
-            // 注册成功后自动登录
+            // 注册成功后自动登录跳转到首页
             this.$store.commit('user/setUserInfo',res.data)
+            this.$router.push('/')
           })
         }
       })

@@ -54,7 +54,11 @@ export default {
           }).then(res=>{
             console.log(res)
             // 使用commit调用mutations的方法:两个参数方法名setUserInfo和数据
+            this.$message.success('登录成功，正在为你跳转...')
             this.$store.commit('user/setUserInfo',res.data)
+            setTimeout(() => {
+              this.$router.push('/')
+            }, 3000);
           })
         }else{
           console.log('验证失败')
