@@ -17,11 +17,11 @@
     </el-form-item>
 
     <el-form-item class="form-item" prop="password">
-      <el-input placeholder="密码" v-model="form.password"></el-input>
+      <el-input placeholder="密码" v-model="form.password" type="password"></el-input>
     </el-form-item>
 
     <el-form-item class="form-item" prop="checkPassword">
-      <el-input placeholder="确认密码" v-model="form.checkPassword"></el-input>
+      <el-input placeholder="确认密码" v-model="form.checkPassword" type="password"></el-input>
     </el-form-item>
     <el-button type="primary" class="submit" @click="loginSubmit">注册</el-button>
   </el-form>
@@ -30,6 +30,15 @@
 <script>
 export default {
   data() {
+      const checkPassword = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请再次输入密码'));
+        } else if (value !== this.form.password) {
+          callback(new Error('密码不一致,请重新输入！'));
+        } else {
+          callback();
+        }
+      };
     return {
       // 表单数据绑定
       form: {
@@ -39,27 +48,29 @@ export default {
         nickname: "", // 昵称
         captcha: "" // 手机验证码
       },
+      
       // 表单规则
       rules: {
         username: [ {required: true, message: "请输入手机号码", trigger: "blur"} ],
         password:[ {required: true, message: "请输入密码", trigger:"blur"} ],
-        checkPassword:[ {required:true, message:"请确认密码", trigger:"blur"} ],
+        checkPassword:[ {validator: checkPassword, trigger:"blur"} ],
         nickname:[ {required:true, message:"请输入昵称", trigger:"blur"} ],
         captcha:[ {required:true, message:"请输入手机验证码", trigger:"blur"} ],
       }
     };
   },
   methods: {
+  
     // 发送验证码
     verificationCode(){
       if(!this.form.username){
         this.$message.error('手机号不能为空，请输入！')
         return
       }
-      // if(!this.form.username.match(/^1[358]\d{9}$/)){
-      //   this.$message.error('手机号格式错误，请重新输入！')
-      //   return
-      // }
+      if(!this.form.username.match(/^1[358]\d{9}$/)){
+        this.$message.error('手机号格式错误，请重新输入！')
+        return
+      }
       this.$axios({
         url:'/captchas',
         method:'POST',

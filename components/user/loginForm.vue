@@ -7,7 +7,7 @@
 
     <!-- 密码输入框 -->
     <el-form-item class="form-item" prop="password">
-      <el-input placeholder="密码" v-model='form.password'></el-input>
+      <el-input placeholder="密码" v-model='form.password' type="password"></el-input>
     </el-form-item>
 
     <P class="form-text">
