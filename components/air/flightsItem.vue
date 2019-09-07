@@ -1,7 +1,7 @@
 <template>
   <div class="flight-item">
     <!-- 显示机票信息 -->
-    <div>
+    <div @click="isShow=!isShow">
       <el-row type="flex" align="middle" class="flight-info">
         <el-col :span="6">
           <span>{{data.airline_name}}</span>
@@ -34,7 +34,7 @@
       </el-row>
     </div>
 
-    <div class="flight-recommend">
+    <div class="flight-recommend" v-show="isShow">
       <!-- 隐藏的座位信息表 -->
       <el-row type="flex" justify="space-between" align="middle">
         <el-col :span="4">低价推荐</el-col>
@@ -66,6 +66,11 @@
 
 <script>
 export default {
+    data(){
+        return {
+            isShow:false //列表默认收起
+        }
+    },
   props: {
     // 表示组件可以接受的数据
     data: {
