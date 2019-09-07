@@ -4,7 +4,8 @@
     <div>
       <el-row type="flex" align="middle" class="flight-info">
         <el-col :span="6">
-          <span>{{data.airline_name}}</span>{{data.flight_no}}
+          <span>{{data.airline_name}}</span>
+          {{data.flight_no}}
         </el-col>
 
         <el-col :span="12">
@@ -15,12 +16,13 @@
             </el-col>
 
             <el-col :span="8" class="flight-time">
-              <span>2时20分</span>
+              <span>{{rankTime}}</span>
             </el-col>
 
             <el-col :span="8" class="flight-airport">
               <strong>{{data.arr_time}}</strong>
-              <span>{{data.dst_airport_name}}</span>{{data.dst_airport_quay}}
+              <span>{{data.dst_airport_name}}</span>
+              {{data.dst_airport_quay}}
             </el-col>
           </el-row>
         </el-col>
@@ -32,17 +34,23 @@
       </el-row>
     </div>
 
-    <div class='flight-recommend'>
+    <div class="flight-recommend">
       <!-- 隐藏的座位信息表 -->
       <el-row type="flex" justify="space-between" align="middle">
         <el-col :span="4">低价推荐</el-col>
 
         <el-col :span="20">
-          <el-row type="flex" class='flight-sell' justify="space-between" 
-            align="middle"  v-for="(item,index) in data.seat_infos" :key="index">
-
-            <el-col :span="16" class='flight-sell-left'>
-              <span>{{item.name}}</span>| {{item.supplierName}}
+          <el-row
+            type="flex"
+            class="flight-sell"
+            justify="space-between"
+            align="middle"
+            v-for="(item,index) in data.seat_infos"
+            :key="index"
+          >
+            <el-col :span="16" class="flight-sell-left">
+              <span>{{item.name}}</span>
+              | {{item.supplierName}}
             </el-col>
             <el-col :span="5" class="price">￥{{item.settle_price}}</el-col>
             <el-col :span="3" class="choose-button">
@@ -58,13 +66,36 @@
 
 <script>
 export default {
-    props:{
-        // 表示组件可以接受的数据
-        data:{
-            type:Object,
-            default:{}
-        }
+  props: {
+    // 表示组件可以接受的数据
+    data: {
+      type: Object,
+      default: {}
     }
+  },
+  computed: {
+    // 计算到达与出发的时间差
+    rankTime() {
+      // 转化为分钟
+      const dep = this.data.dep_time.split(":");
+      const arr = this.data.arr_time.split(":");
+      const depVal = dep[0] * 60 + +dep[1];
+      let arrVal = arr[0] * 60 + +arr[1];
+
+      if (arrVal < depVal) {
+        arrVal = arrVal + 24 * 60;
+      }
+      // 到达时间与出发时间相减
+      let dis = arrVal - depVal;
+      //   若是第二天凌晨时间段，需要加24
+      //    if(dis<0){
+      //         dis=arrVal+24*60-depVal
+      //     }
+
+      // 得到时间差
+      return `${Math.floor(dis / 60)}时${dis % 60}分`;
+    }
+  }
 };
 </script>
 
