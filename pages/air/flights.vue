@@ -4,7 +4,7 @@
       <!-- 顶部过滤列表 -->
       <div class="flights-content">
         <!-- 过滤条件 -->
-        <FlightsFilters :data='flightsData'/>
+        <FlightsFilters :data="cacheFlightsData" @setDataList="setDataList" />
 
         <!-- 航班头部布局 -->
         <FlightsListHead />
@@ -38,24 +38,29 @@
 import moment from "moment";
 import FlightsListHead from "@/components/air/flightsListHead.vue";
 import FlightsItem from "@/components/air/flightsItem.vue";
-import FlightsFilters from "@/components/air/flightsFilters.vue"
+import FlightsFilters from "@/components/air/flightsFilters.vue";
 export default {
   data() {
     return {
-      flightsData:{
-        flights:[],
-        info:{},
-        options:{}
+      flightsData: {
+        flights: [],
+        info: {},
+        options: {}
+      },
+      // 缓存总数据，该数据一旦赋值将不会被修改
+      cacheFlightsData: {
+        flights: [],
+        info: {},
+        options: {}
       },
       // 机票列表返回的总数据
       // flightsData: {},
       //当前显示的列表数组
-      dataList:[],
+      dataList: [],
 
-      pageSize:5,//当前的条数
-      pageIndex:1,//当前的页码
-      total:0  //总条数
-
+      pageSize: 5, //当前的条数
+      pageIndex: 1, //当前的页码
+      total: 0 //总条数
     };
   },
   mounted() {
@@ -68,29 +73,44 @@ export default {
       console.log(res);
       // 赋值给总数据
       this.flightsData = res.data;
-    //   当前列表数据
-      this.dataList=this.flightsData.flights
-    //   分页的总条数
-    this.total=this.dataList.length
-    // 第一页的数值
-    this.dataList=this.flightsData.flights.slice(0,this.pageSize)
+      // 赋值后不会被修改
+      this.cacheFlightsData={...res.data};
+      //   当前列表数据
+      this.dataList = this.flightsData.flights;
+      //   分页的总条数
+      this.total = this.dataList.length;
+      // 第一页的数值
+      this.dataList = this.flightsData.flights.slice(0, this.pageSize);
     });
   },
-  methods:{
-    //   每页条数切换时触发，val条数
-    handleSizeChange(val){
-        this.pageSize=val;
-        // 切换列表显示的数据条数
-        this.dataList=this.flightsData.flights.slice(0,val)
+  methods: {
+    // 该方法传递给子组件用于修改dataList
+    setDataList(arr) {
+      // console.log(arr)
+      this.flightsData.flights = arr;
+      // 分割列表数据
+      this.dataList = this.flightsData.flights.slice(
+        (this.pageIndex - 1) * this.pageSize,
+        this.pageIndex * this.pageSize
+      );
+      this.total=arr.length
     },
-    
+
+    //   每页条数切换时触发，val条数
+    handleSizeChange(val) {
+      this.pageSize = val;
+      // 切换列表显示的数据条数
+      this.dataList = this.flightsData.flights.slice(0, val);
+    },
+
     // 页码数切换时触发，vale点击的页码
-    handleCurrentChange(vale){
-        this.pageIndex=vale;
-        this.dataList=this.flightsData.flights.slice(
-            (this.pageIndex-1)*this.pageSize,
-            this.pageIndex*this.pageSize
-        )
+    handleCurrentChange(vale) {
+      this.pageIndex = vale;
+      // 分割列表数据
+      this.dataList = this.flightsData.flights.slice(
+        (this.pageIndex - 1) * this.pageSize,
+        this.pageIndex * this.pageSize
+      );
     }
   },
   // 注册组件
